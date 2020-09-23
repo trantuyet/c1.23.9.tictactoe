@@ -1,10 +1,3 @@
-/*
- * Tic Tac Toe
- *
- * A Tic Tac Toe game in HTML/JavaScript/CSS.
- *
- * @author: Vasanth Krishnamoorthy
- */
 var N_SIZE = 3,
     EMPTY = "&nbsp;",
     boxes = [],
@@ -12,9 +5,6 @@ var N_SIZE = 3,
     score,
     moves;
 
-/*
- * Initializes the Tic Tac Toe board and starts the game.
- */
 function init() {
     var board = document.createElement('table');
     board.setAttribute("border", 1);
@@ -49,9 +39,6 @@ function init() {
     startNewGame();
 }
 
-/*
- * New game
- */
 function startNewGame() {
     score = {
         "X": 0,
@@ -64,15 +51,12 @@ function startNewGame() {
     });
 }
 
-/*
- * Check if a win or not
- */
 function win(clicked) {
     // Get all cell classes
-    var memberOf = clicked.className.split(/\s+/);
-    for (var i = 0; i < memberOf.length; i++) {
-        var testClass = '.' + memberOf[i];
-        var items = contains('#tictactoe ' + testClass, turn);
+    let memberOf = clicked.className.split(/\s+/);
+    for (let i = 0; i < memberOf.length; i++) {
+        let testClass = '.' + memberOf[i];
+        let items = contains('#tictactoe ' + testClass, turn);
         // winning condition: turn == N_SIZE
         if (items.length == N_SIZE) {
             return true;
@@ -82,15 +66,12 @@ function win(clicked) {
 }
 
 function contains(selector, text) {
-    var elements = document.querySelectorAll(selector);
+    let elements = document.querySelectorAll(selector);
     return [].filter.call(elements, function(element){
         return RegExp(text).test(element.textContent);
     });
 }
 
-/*
- * Sets clicked square and also updates the turn.
- */
 function set() {
     if (this.innerHTML !== EMPTY) {
         return;
@@ -99,15 +80,20 @@ function set() {
     moves += 1;
     score[turn] += this.identifier;
     if (win(this)) {
-        alert('Winner: Player ' + turn);
-        startNewGame();
+        setTimeout(function  ()
+        {
+            alert('Winner: Player ' + turn);
+            startNewGame();
+        },500)
+
     } else if (moves === N_SIZE * N_SIZE) {
-        alert("Draw");
-        startNewGame();
+        setTimeout(function (){
+            alert("Draw");
+            startNewGame();
+        },500)
     } else {
         turn = turn === "X" ? "O" : "X";
         document.getElementById('turn').textContent = 'Player ' + turn;
     }
 }
-
 init();
